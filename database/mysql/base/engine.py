@@ -1,9 +1,8 @@
-import pandas as pd
 from sqlalchemy import create_engine, MetaData
-from database.mysql.base.configure import Configuration
+from config.config import MysqlConfig
 
 
-class MySQL(Configuration):
+class MySQL(MysqlConfig):
     def __init__(self):
         super().__init__()
         self.engine = create_engine(self._url)

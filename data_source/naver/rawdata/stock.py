@@ -31,6 +31,7 @@ class 개별종목시세추이(NAVER):
     def get_data(self, scode, sdate, edate):
         df = self.get_raw_data(scode, sdate, edate)
         df.drop("외국인소진율", axis=1, inplace=True)
+        df.columns = ["일자", "시가", "고가", "저가", "종가", "거래량"]
 
         return df
 

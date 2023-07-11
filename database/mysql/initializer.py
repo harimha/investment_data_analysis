@@ -4,6 +4,8 @@ from database.mysql.stock.tables import StockCode, StockOHLCV_NAVER, StockDetail
 from utils.datetimes import get_last_buisiness_day
 from utils.utils import measure_execution_time
 from database.mysql.stock.utils import scode_to_name
+from database.mysql.indicies.utils import get_base_date
+
 
 def initialize_code_db():
     icode = IndexCode()
@@ -12,14 +14,12 @@ def initialize_code_db():
         exe_time = measure_execution_time(obj.store_data)[1]
         print(f"{obj.table_name} is initialized ({exe_time}sec)")
 
-
 def initialize_info_db():
     iinfo = IndexInfo()
     sinfo = StockBasicInfo()
     for obj in [iinfo, sinfo]:
         exe_time = measure_execution_time(obj.store_data)[1]
         print(f"{obj.table_name} is initialized ({exe_time}sec)")
-
 
 def initialize_stock_db():
     ohlcv = StockOHLCV_NAVER()
@@ -34,8 +34,14 @@ def initialize_stock_db():
 
         print(f"{i + 1}/{len(info_df)} {stock_name} is stored ({execution_time}sec)")
 
-
-initialize_stock_db()
-
-
+def initialize_index_db():
+    ohlcv = IndexOHLCV()
+    edate = get_last_buisiness_day()
+    i_lst = ["코스피", "코스피200", "코스닥", "코스닥150"]
+    i = 1
+    for index_name in i_lst:
+        sdate = get_base_date(index_name)
+        execution_time = measure_execution_time(ohlcv.store_data_period,index_name,sdate,edate)[1]
+        print(f"{i}/{len(i_lst)} {index_name} is stored ({execution_time}sec)")
+        i+=1
 

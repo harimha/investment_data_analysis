@@ -52,10 +52,10 @@ class StockDetails(Stock, CrossSectional):
 class StockOHLCV_NAVER(Stock, TimeSeries):
     def __init__(self):
         super().__init__()
-        self.table_name = "stock_ohlcv"
-        self.columns = ['날짜', '시가', '고가', '저가', '종가', '거래량', 'stock_name']
+        self.table_name = "stock_ohlcv_naver"
+        self.columns = ['일자', '시가', '고가', '저가', '종가', '거래량', 'stock_name']
         self.types = ['datetime', 'int', 'int', 'int', 'int', 'bigint', 'varchar(50)']
-        self.pkey = ["날짜", "stock_name"]
+        self.pkey = ["일자", "stock_name"]
         self.create_table()
         self.partion_list = self.get_partition_list(20)
         self.add_partition_by_string("stock_name", self.partion_list)
@@ -75,7 +75,7 @@ class StockOHLCV_NAVER(Stock, TimeSeries):
 class StockOHLCV_KRX(Stock, TimeSeries):
     def __init__(self):
         super().__init__()
-        self.table_name = "stock_ohlcv"
+        self.table_name = "stock_ohlcv_krx"
         self.columns = ['일자', '종가', '시가', '고가', '저가',
                         '거래량', '거래대금', '시가총액', '상장주식수', 'stock_name']
         self.types = ['datetime', 'int', 'int', 'int', 'int',

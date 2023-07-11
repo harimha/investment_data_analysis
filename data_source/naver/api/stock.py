@@ -18,7 +18,7 @@ def get_stock_ohlcv(stock_name, sdate, edate):
     obj = 개별종목시세추이()
     scode = get_fcode_scode(stock_name)[1]
     df = obj.get_data(scode, sdate, edate)
-    col_datetime = ["날짜"]
+    col_datetime = ["일자"]
     df = dfhandling.change_type(df, datetime=col_datetime)
     df["stock_name"] = stock_name
 

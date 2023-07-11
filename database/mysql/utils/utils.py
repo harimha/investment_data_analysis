@@ -1,13 +1,13 @@
 import pandas as pd
 from datetime import timedelta
 from sqlalchemy import MetaData, create_engine, select
-from database.mysql.base.configure import Configuration
+from config.config import MysqlConfig
 from utils.datetimes import get_last_buisiness_day, date_format
 
 
 
 def read_db(schema_name, table_name, columns:tuple):
-    config = Configuration()
+    config = MysqlConfig()
     table_obj = get_table_obj(schema_name, table_name)
     engine = create_engine(config._url)
     stmt = select(table_obj.c[columns])
@@ -17,7 +17,7 @@ def read_db(schema_name, table_name, columns:tuple):
 
 
 def get_table_obj(schema_name, table_name):
-    config = Configuration()
+    config = MysqlConfig()
     engine = create_engine(config._url)
     meta = MetaData(schema_name)
     meta.reflect(engine)
@@ -31,7 +31,7 @@ def get_columns(tb_obj):
     return columns
 
 def is_db_uptodate(schema_name, table_name, code_name):
-    config = Configuration()
+    config = MysqlConfig()
     last_buisiness_day = get_last_buisiness_day()
     engine = create_engine(config._url)
     tb = get_table_obj(schema_name, table_name)
