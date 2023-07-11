@@ -5,6 +5,7 @@ from database.mysql.base.configure import Configuration
 from utils.datetimes import get_last_buisiness_day, date_format
 
 
+
 def read_db(schema_name, table_name, columns:tuple):
     config = Configuration()
     table_obj = get_table_obj(schema_name, table_name)
@@ -73,4 +74,16 @@ def hasNull(data:pd.Series):
     else:
         return False
 
+
+def get_partition_list(df, column_name, n):
+    '''
+    df에 대한 column 기준으로 동일한 간격의 n개의 파티션 구간 리스트 반환
+    '''
+    df = df.sort_values(column_name)
+    part_lst = []
+    q = round(len(df) / 20)
+    for i in range(1, n):
+        part_lst.append(df[column_name].iloc[i * q])
+
+    return part_lst
 

@@ -42,9 +42,9 @@ def insert_into(schema_name, table_name, values):
     return stmt
 
 
-def add_partion_by_range(schema_name, table_name, column, value_list):
+def add_partion_by_string_range(schema_name, table_name, column, partition_list):
     stmt_lst = []
-    for i, v in enumerate(value_list,1):
+    for i, v in enumerate(partition_list, 1):
         stmt_text = f"PARTITION p{i} VALUES LESS THAN ('{v}')"
         stmt_lst.append(stmt_text)
     partitions = ",".join(stmt_lst)

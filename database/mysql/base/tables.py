@@ -2,6 +2,7 @@ import pandas as pd
 from sqlalchemy import inspect, MetaData
 import database.mysql.utils.statements as stmts
 from database.mysql.base.engine import MySQL
+from database.mysql.utils.utils import get_partition_list
 
 class Table(MySQL):
     def __init__(self):
@@ -92,6 +93,15 @@ class Table(MySQL):
 
         return column_obj
 
+    def add_partition_by_string(self, schema_name, table_name, col_name, partition_list):
+        stmt = stmts.add_partion_by_string_range(schema_name, table_name, col_name, partition_list)
+        self.commit_statement(stmt)
+
+    def get_partition_list(self, df, column_name, n):
+        part_list = get_partition_list(df, column_name, n)
+
+        return part_list
+
 
 class TableOperation(Table):
     def __init__(self):
@@ -164,15 +174,9 @@ class TableOperation(Table):
         df_new = self.get_df_to_update(df_data, df_db)
         df_new.to_sql(self.table_name, self.engine, self.schema_name, index=False, if_exists='append')
 
-    def partitioning(self):
-        pass
+    def add_partition_by_string(self, col_name, partition_list):
+        if self._isTableExists(self.schema_name, self.table_name):
+            pass
+        else:
+            super().add_partition_by_string(self.schema_name, self.table_name, col_name, partition_list)
 
-    # def df_to_db(self, df):
-    #     for i in range(len(df)):
-    #         data = df.iloc[i]
-    #         if hasNull(data):
-    #             data = data[data.notnull()]
-    #         try:
-    #             self.insert_data(data)
-    #         except:
-    #             continue

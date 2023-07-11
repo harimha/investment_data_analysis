@@ -1,4 +1,5 @@
 import time
+from database.mysql.utils.utils import read_db
 import data_source.krx.api.stock as krx_stock
 import data_source.naver.api.stock as naver_stock
 from database.mysql.base.schemas import Stock
@@ -56,8 +57,18 @@ class StockOHLCV_NAVER(Stock, TimeSeries):
         self.types = ['datetime', 'int', 'int', 'int', 'int', 'bigint', 'varchar(50)']
         self.pkey = ["날짜", "stock_name"]
         self.create_table()
+        self.partion_list = self.get_partition_list(20)
+        self.add_partition_by_string("stock_name", self.partion_list)
         self.get_data = naver_stock.get_stock_ohlcv
         self.table_obj = self.get_table_obj()
+
+    def get_partition_list(self, n):
+        df = read_db(self.schema_name, "stock_code", "stock_name")
+        lst = super().get_partition_list(df, "stock_name", n)
+
+        return lst
+
+
 
 
 
@@ -103,11 +114,3 @@ class StockForeignHoldings(Stock, TimeSeries):
         self.get_data = krx_stock.get_foreign_holdings_stock
         self.table_obj = self.get_table_obj()
 
-
-
-from database.mysql.utils.statements import add_partion_by_range
-obj = StockOHLCV_NAVER()
-lst = ["가", "나", "다", "라", "마", "바", "사", "아", "자", "차", "카", "타", "파", "하"]
-stmt = add_partion_by_range("stock","stock_ohlcv","stock_name",lst)
-
-obj.commit_statement(stmt)

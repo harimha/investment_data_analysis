@@ -1,4 +1,4 @@
-from krxdata.db.utils import read_db
+from database.mysql.utils.utils import read_db
 
 
 def _schema_table_name():
