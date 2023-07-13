@@ -3,19 +3,7 @@ from pandas.api.types import is_list_like
 from utils.exceptions import WebResponseError, EmptyDataFrame
 from config.config import KosisConfig, EcosConfig
 
-class Web(ABC):
-    @abstractmethod
-    def get_response(self):
-        pass
-
-    @abstractmethod
-    def get_raw_data(self):
-        pass
-
-    @abstractmethod
-    def get_data(self):
-        pass
-
+class Web():
     def _check_response(self, resp):
         if resp.status_code == 200:
             pass
@@ -39,35 +27,11 @@ class NAVER(Web):
         self._url = "https://api.finance.naver.com/siseJson.naver"
         self._params= {}
 
-    @abstractmethod
-    def get_response(self):
-        pass
-
-    @abstractmethod
-    def get_raw_data(self):
-        pass
-
-    @abstractmethod
-    def get_data(self):
-        pass
-
 
 class KRX(Web):
     def __init__(self):
         self._params = {"locale": "ko_KR"}
         self._url = "http://data.krx.co.kr/comm/bldAttendant/getJsonData.cmd"
-
-    @abstractmethod
-    def get_response(self):
-        pass
-
-    @abstractmethod
-    def get_raw_data(self):
-        pass
-
-    @abstractmethod
-    def get_data(self):
-        pass
 
 
 class KOSIS(Web, KosisConfig):
@@ -78,38 +42,12 @@ class KOSIS(Web, KosisConfig):
                         "jsonVD": "Y",
                         "jsonMVD": "Y"}
 
-    @abstractmethod
-    def get_response(self):
-        pass
-
-    @abstractmethod
-    def get_raw_data(self):
-        pass
-
-    @abstractmethod
-    def get_data(self):
-        pass
-
 
 class FISIS(Web):
     def __init__(self):
         super().__init__()
         self._params = {"auth": self._fisis_apikey,
                         "lang": "kr"}
-
-    @abstractmethod
-    def get_response(self):
-        pass
-
-    @abstractmethod
-    def get_raw_data(self):
-        pass
-
-    @abstractmethod
-    def get_data(self):
-        pass
-
-
 
 
 class ECOS(Web, EcosConfig):
@@ -132,17 +70,6 @@ class ECOS(Web, EcosConfig):
         return parameters
 
 
-    @abstractmethod
-    def get_response(self):
-        pass
-
-    @abstractmethod
-    def get_raw_data(self):
-        pass
-
-    @abstractmethod
-    def get_data(self):
-        pass
 
 
 

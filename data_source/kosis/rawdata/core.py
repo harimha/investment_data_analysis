@@ -69,9 +69,9 @@ class 통계자료(API):
         PRD_DE: 수록시점
         DT: 수치값
         '''
-        df= super().get_data(orgId=orgId, tblId=tblId, objL1=objL1,
-                             itmId=itmId, prdSe=prdSe, startPrdDe=startPrdDe,
-                             endPrdDe=endPrdDe)
+        df= super()._get_data(orgId=orgId, tblId=tblId, objL1=objL1,
+                              itmId=itmId, prdSe=prdSe, startPrdDe=startPrdDe,
+                              endPrdDe=endPrdDe)
         return df
 
 

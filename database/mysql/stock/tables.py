@@ -32,7 +32,6 @@ class StockBasicInfo(Stock, CrossSectional):
         self.table_obj = self.get_table_obj()
 
 
-
 class StockDetails(Stock, CrossSectional):
     def __init__(self):
         super().__init__()
@@ -67,9 +66,6 @@ class StockOHLCV_NAVER(Stock, TimeSeries):
         lst = super().get_partition_list(df, "stock_name", n)
 
         return lst
-
-
-
 
 
 class StockOHLCV_KRX(Stock, TimeSeries):

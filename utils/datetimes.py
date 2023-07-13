@@ -1,7 +1,20 @@
 import requests as req
 from bs4 import BeautifulSoup
 from datetime import datetime
+import calendar
 from utils.types import is_datetime_like, is_timestamp
+
+
+
+def get_last_day_of_month(year, month):
+    if isinstance(year, str):
+        year = int(year)
+    if isinstance(month, str):
+        month = int(month)
+
+    last_day = calendar.monthrange(year, month)[1]
+
+    return last_day
 
 
 def date_format(*date, to_string=False) -> datetime or str:

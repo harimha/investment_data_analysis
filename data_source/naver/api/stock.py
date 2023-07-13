@@ -14,6 +14,7 @@ def get_fcode_scode(stock_name):
 
     return fcode, scode
 
+
 def get_stock_ohlcv(stock_name, sdate, edate):
     obj = 개별종목시세추이()
     scode = get_fcode_scode(stock_name)[1]
@@ -23,4 +24,7 @@ def get_stock_ohlcv(stock_name, sdate, edate):
     df["stock_name"] = stock_name
 
     return df
+
+
+
 

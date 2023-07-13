@@ -1,15 +1,16 @@
-from data_source.ecos.rawdata.core import 통계표조회
+from data_source.ecos.rawdata.core.exchange_rate import 주요국통화의대원화환율
 from preprocessing import dfhandling
 
 
-class 주요국통화의대원화환율(통계표조회):
+
+
+class 원_미국달러(주요국통화의대원화환율):
     def __init__(self):
         super().__init__()
-        self.stat_code = "731Y001"
-        self.period_type = "일"
+        self.itemcode1 = "0000001"
 
-    def won_dollar(self, sdate, edate):
-        df = super().get_data(self.stat_code, self.period_type, sdate, edate, "0000001")
+    def get_data_day(self, sdate, edate):
+        df = super()._get_data(self.stat_code, self.period_type, sdate, edate, self.itemcode1)
         df = df[["시점", "값"]]
         df.columns = ["일자", "원/달러"]
         col_datetime = ["일자"]
@@ -20,8 +21,14 @@ class 주요국통화의대원화환율(통계표조회):
 
         return df
 
-    def won_yen(self, sdate, edate):
-        df = super().get_data(self.stat_code, self.period_type, sdate, edate, "0000002")
+
+class 원_일본엔(주요국통화의대원화환율):
+    def __init__(self):
+        super().__init__()
+        self.itemcode1 = "0000002"
+
+    def get_data_day(self, sdate, edate):
+        df = super()._get_data(self.stat_code, self.period_type, sdate, edate, self.itemcode1)
         df = df[["시점", "값"]]
         df.columns = ["일자", "원/100엔"]
         col_datetime = ["일자"]
@@ -31,8 +38,9 @@ class 주요국통화의대원화환율(통계표조회):
                                     float=col_float)
         return df
 
+
+
 class 주요국통화의대미달러환율():
     def __init__(self):
         self.stat_code = "731Y002"
         self.period_type = "일"
-

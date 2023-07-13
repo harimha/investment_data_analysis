@@ -1,0 +1,1 @@
+from .wrap import kospi_c
