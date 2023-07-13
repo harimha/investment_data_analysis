@@ -15,5 +15,3 @@ def ratio_stockcap_m2():
     df1["시총/m2"] = df1["상장시가총액"]/df1["M2"]
     df1 = df1.set_index("일자")
     df1["시총/m2"].plot()
-
-ratio_stockcap_m2()
