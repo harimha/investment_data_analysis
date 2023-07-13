@@ -1,5 +1,6 @@
 *.csv
 *.log
+.idea/
 secrets.txt
 debug/
 test/
